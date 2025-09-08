@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee2486e3a528c6e4599b57a20a815a06, type: 3}
+  m_Name: Mango
+  m_EditorClassIdentifier: 
+  myName: "\uB9DD\uACE0"
+  myDescription: "\uBAA8\uB4E0 \uB0A0\uC528\uC640 \uAC70\uC758 \uBAA8\uB4E0 \uC2DC\uAC04\uC5D0
+    \uC131\uC7A5\uD569\uB2C8\uB2E4.\n\uD558\uC9C0\uB9CC \uC790\uB77C\uB294\uB370
+    \uC2DC\uAC04\uC774 \uC624\uB798 \uAC78\uB9BD\uB2C8\uB2E4."
+  myPrefab: {fileID: 2304887757697468796, guid: e53bc0e82afb88c4d824429cf69f6d0a, type: 3}
+  buyPrice: 6000
+  minSellPrice: 12000
+  maxSellPrice: 24000
+  sellPrice: 18000
+  allowWeathers: 0000000001000000020000000300000004000000
+  minHumidity: 50
+  maxHumidity: 80
+  minTime: 3
+  maxTime: 22
+  requireTime: 180

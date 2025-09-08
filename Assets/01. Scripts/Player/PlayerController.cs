@@ -13,8 +13,14 @@ public class PlayerController : MonoBehaviour
 
     public Material test;
 
+    public ToolInfo currentTool;
+    public CropInfo currentSeed;
+
+    public bool isCantMove;
+
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         rigidBody = GetComponent<Rigidbody>();
     }
 
@@ -25,17 +31,12 @@ public class PlayerController : MonoBehaviour
 
         Vector3 dir = new Vector3(h, 0, v).normalized;
         
-        Move(dir);
+        if(!isCantMove)
+            Move(dir);
+        else
+            anim.SetBool("isMove", false);
 
         test.SetVector("_Pos", transform.position);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            anim.SetTrigger("Sowing");
-        }
     }
 
     private void Move(Vector3 dir)

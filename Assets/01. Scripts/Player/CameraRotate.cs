@@ -4,36 +4,50 @@ using UnityEngine;
 
 public class CameraRotate : MonoBehaviour
 {
-    public Transform targetPos;
-    public Transform cameraTrasnform;
+    private Transform targetPos;
+
+    public Transform normalTargetPos;
+    public Transform freeTargetPos;
+
+    public Transform realPosition;
 
     public float rotateSpeed;
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        CursorManager.Instance.CursorState = CursorState.PlayerView;
+        CameraManager.Instance.CameraAttach(realPosition);
     }
 
     private void FixedUpdate()
     {
-        Rotate();
+        if (CursorManager.Instance.CursorState == CursorState.PlayerView && GamePlayManager.Instance.isFarm)
+        {
+            targetPos = freeTargetPos;
+            Rotate();
+        }
+        else
+        {
+            targetPos = normalTargetPos;
+            rotationX = 0;
+            rotationY = 0;
+            transform.localEulerAngles = new Vector3(30f, 0, 0f);
+        }
         SetPosition();
     }
 
-    private float rotationX = 0f; // X축 누적 회전 값
-    private float rotationY = 0f; // Y축 누적 회전 값
+    private float rotationY = 0f;
+    private float rotationX = 0f;
 
     private void Rotate()
     {
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        rotationX -= mouseY * rotateSpeed; // 마우스 Y 이동은 X축 회전
-        rotationY += mouseX * rotateSpeed; // 마우스 X 이동은 Y축 회전
+        rotationY += mouseX * rotateSpeed;
+        rotationX += -mouseY * rotateSpeed;
 
-        // X축 회전 제한 (-80 ~ 80)
-        rotationX = Mathf.Clamp(rotationX, -80f, 30f);
+        rotationX = Mathf.Clamp(rotationX, -30, 30);
 
         transform.localEulerAngles = new Vector3(rotationX, rotationY, 0f);
     }
@@ -43,14 +57,13 @@ public class CameraRotate : MonoBehaviour
         Vector3 dir = (targetPos.position - transform.position).normalized;
         float distance = Vector3.Distance(transform.position, targetPos.position);
 
-        Debug.DrawRay(transform.position, dir, Color.red, 5f);
         if (Physics.Raycast(transform.position, dir, out RaycastHit hit, distance, LayerMask.GetMask("Wall")))
         {
-            cameraTrasnform.position = hit.point;
+            realPosition.position = hit.point - dir;
         }
         else
         {
-            cameraTrasnform.position = targetPos.position;
+            realPosition.position = targetPos.position;
         }
     }
 }

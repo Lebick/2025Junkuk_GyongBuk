@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee2486e3a528c6e4599b57a20a815a06, type: 3}
+  m_Name: Potato
+  m_EditorClassIdentifier: 
+  myName: "\uAC10\uC790"
+  myDescription: "\uD48D\uD574\uC5D0 \uAC15\uB825\uD558\uAC8C \uAC1C\uB7C9\uB418\uC5C8\uC2B5\uB2C8\uB2E4."
+  myPrefab: {fileID: 8316969316057357417, guid: 2ce10da6ef9ef4048965e12d0a68c91f, type: 3}
+  buyPrice: 3000
+  minSellPrice: 6000
+  maxSellPrice: 12000
+  sellPrice: 9000
+  allowWeathers: 00000000010000000200000003000000
+  minHumidity: 50
+  maxHumidity: 80
+  minTime: 6
+  maxTime: 18
+  requireTime: 80

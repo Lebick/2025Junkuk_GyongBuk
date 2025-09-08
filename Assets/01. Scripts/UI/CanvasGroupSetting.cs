@@ -20,6 +20,7 @@ public class CanvasGroupSetting : MonoBehaviour
             StopCoroutine(alphaCoroutine);
 
         alphaCoroutine = AlphaCoroutine(value, duration);
+        StartCoroutine(alphaCoroutine);
     }
 
     private IEnumerator AlphaCoroutine(float value, float duration)
@@ -32,7 +33,6 @@ public class CanvasGroupSetting : MonoBehaviour
         {
             p += Time.deltaTime / duration;
             canvasGroup.alpha = Mathf.Lerp(start, value, p);
-
             yield return null;
         }
 

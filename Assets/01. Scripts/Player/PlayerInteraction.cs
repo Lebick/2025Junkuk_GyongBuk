@@ -1,18 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
     private GameObject currentInteraction;
 
+    public float interactionRange;
+
     private void Update()
     {
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hit, 5f, LayerMask.GetMask("Interactable")))
-        {
-            currentInteraction = hit.transform.gameObject;
+        Collider[] objs = Physics.OverlapSphere(transform.position, interactionRange, LayerMask.GetMask("Interactable"));
 
-            if (hit.transform.TryGetComponent(out IMouseOver mouseOver))
+        if(objs.Length > 0)
+        {
+            float distance = Mathf.Infinity;
+
+            GameObject nearInteraction = null;
+
+            foreach (Collider obj in objs)
+            {
+                float currentDistance = Vector3.Distance(transform.position, obj.transform.position);
+
+                if (currentDistance < distance)
+                {
+                    nearInteraction = obj.gameObject;
+                    distance = currentDistance;
+                }
+            }
+
+            currentInteraction = nearInteraction.transform.gameObject;
+
+            if (nearInteraction.transform.TryGetComponent(out IMouseOver mouseOver))
                 mouseOver.MouseOverEvent();
         }
         else
@@ -20,6 +40,7 @@ public class PlayerInteraction : MonoBehaviour
             FailedFindInteraction();
             return;
         }
+        
 
         if (Input.GetKeyDown(KeyCode.F) && currentInteraction != null)
         {
