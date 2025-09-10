@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class FarmLand : MonoBehaviour
 {
+    private SkinnedMeshRenderer skinnedMeshRenderer;
+
     public SeedInfo currentCrop;
     public FarmTile parentTile;
 
@@ -18,6 +20,12 @@ public class FarmLand : MonoBehaviour
     public Text alertGrowthGauge;
 
     public bool isPlowing;
+    private float plowWeight = 0;
+
+    private void Awake()
+    {
+        skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
+    }
 
     public void PlantCrop(SeedInfo crop)
     {
@@ -28,6 +36,9 @@ public class FarmLand : MonoBehaviour
 
     private void Update()
     {
+        plowWeight = Mathf.Lerp(plowWeight, isPlowing ? 100 : 0, Time.deltaTime * 5f);
+        skinnedMeshRenderer.SetBlendShapeWeight(0, plowWeight);
+
         alertGameObject.SetActive(currentCrop != null);
 
         if (currentCrop == null)

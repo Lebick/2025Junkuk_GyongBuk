@@ -6,6 +6,7 @@ public class SpawnTool : MonoBehaviour
 {
     public Transform rake; //°¥Äû
     public Transform water; //¹°»Ñ¸®°³
+    public Transform net; //±×¹°
 
     public ParticleSystem spawnParticle;
     private ParticleSystem.MainModule mainModule;
@@ -40,7 +41,12 @@ public class SpawnTool : MonoBehaviour
 
     public void SpawningTool(Transform tr)
     {
-        Mesh mesh = tr.GetComponent<MeshFilter>().mesh;
+        Mesh mesh = new();
+
+        if(tr.GetComponent<MeshFilter>())
+            mesh = tr.GetComponent<MeshFilter>().mesh;
+        else if(tr.childCount > 0 && tr.GetComponentInChildren<SkinnedMeshRenderer>())
+            tr.GetComponentInChildren<SkinnedMeshRenderer>().BakeMesh(mesh);
 
         emissionModule.SetBurst(0, new ParticleSystem.Burst(0, mesh.vertexCount));
         mainModule.maxParticles = mesh.vertexCount;
@@ -49,7 +55,7 @@ public class SpawnTool : MonoBehaviour
 
         currentTransform = tr;
 
-        StartCoroutine(Test(tr));
+        StartCoroutine(Test(mesh, tr));
     }
 
     public void RemoveTool(Transform tr)
@@ -58,11 +64,10 @@ public class SpawnTool : MonoBehaviour
         removeParticle.Play();
     }
 
-    private IEnumerator Test(Transform tr)
+    private IEnumerator Test(Mesh mesh, Transform tr)
     {
-        Mesh mesh = tr.GetComponent<MeshFilter>().mesh;
-
         yield return null;
+
         spawnParticle.GetParticles(particles);
 
         for (int i = 0; i < mesh.vertexCount; i++)

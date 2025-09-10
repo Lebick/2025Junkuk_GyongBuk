@@ -7,6 +7,10 @@ public class UIManager : Singleton<UIManager>
 {
     private GamePlayManager gamePlayManager;
 
+    public ShopUI shopUI;
+
+    public Text moneyText;
+
     public Text alertMessage;
 
     public Text timeText;
@@ -54,20 +58,26 @@ public class UIManager : Singleton<UIManager>
         };
 
         DontDestroyOnLoad(gameObject);
+
+        InventoryUpdate();
     }
 
     private void OnEnable()
     {
-        gamePlayManager.inventory.onItemListChanged.AddListener(InventoryUpdate);
+        if(Instance == this)
+            gamePlayManager.inventory.onItemListChanged.AddListener(InventoryUpdate);
     }
 
     private void OnDisable()
     {
-        gamePlayManager.inventory.onItemListChanged.RemoveListener(InventoryUpdate);
+        if (Instance == this)
+            gamePlayManager.inventory.onItemListChanged.RemoveListener(InventoryUpdate);
     }
 
     private void LateUpdate()
     {
+        moneyText.text = $"{gamePlayManager.money:N0} $";
+
         int[] times = gamePlayManager.GetTime();
 
         timeText.text = $"{times[0]}d {times[1]}h {times[2]}m {times[3]}s";

@@ -19,3 +19,5 @@ MonoBehaviour:
     \uCD5C\uB300 3\uB9C8\uB9AC \uD3EC\uD68D\uD569\uB2C8\uB2E4.\n\uC0AC\uC6A9 \uC2DC
     (\uC0AC\uC6A9\uD69F\uC218 * 20%) \uD655\uB960\uB85C \uD30C\uAD34\uB429\uB2C8\uB2E4."
   functionName: Animal
+  toolSprite: {fileID: 21300000, guid: 0e8202bb9d810924ab8ed69c48426a9d, type: 3}
+  maxUseCount: 0

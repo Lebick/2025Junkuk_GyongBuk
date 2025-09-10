@@ -117,7 +117,7 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
-    private int GetItemsCount()
+    public int GetItemsCount()
     {
         int count = 0;
 

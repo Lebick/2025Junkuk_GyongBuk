@@ -20,3 +20,5 @@ MonoBehaviour:
     \u3141\u3141\u3141, \u3142\u3142\u3142\uC791\uBB3C\uC758 \uC131\uC7A5\uC774 \uBD88\uAC00\uB2A5\uD574\uC9D1\uB2C8\uB2E4.\n\uCCA0\uAC70\uD560
     \uC218 \uC788\uC2B5\uB2C8\uB2E4."
   functionName: Binil
+  toolSprite: {fileID: 21300000, guid: 3509692c026490847842300ff7350b8e, type: 3}
+  maxUseCount: 0

@@ -23,7 +23,7 @@ public class PlayerTool : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if((player.currentTool != null || player.currentSeed != null) && GamePlayManager.Instance.fatigue >= 100)
+            if ((player.currentTool != null || player.currentSeed != null) && GamePlayManager.Instance.fatigue >= 100)
             {
                 UIManager.Instance.SetAlert("³ª ³Ê¹« Èûµå·· ¤Ð¤Ð");
                 return;
@@ -55,7 +55,7 @@ public class PlayerTool : MonoBehaviour
 
     private void Water()
     {
-        if(waterUseCount >= maxWaterCount)
+        if (waterUseCount >= maxWaterCount)
         {
             print("¹°ÀÌ¾øÀÝ¾Æ");
             return;
@@ -141,7 +141,7 @@ public class PlayerTool : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        
+
 
         player.isCantMove = false;
     }
@@ -153,18 +153,59 @@ public class PlayerTool : MonoBehaviour
 
     private void Animal()
     {
-        print("¾ß»ýµ¿¹°");
+        if (currentLand == null)
+        {
+            print("¶¥ÀÌ¾øÀÝ¾Æ");
+        }
+        else
+        {
+            GamePlayManager.Instance.fatigue += 5;
+            StartCoroutine(SpawningToolMesh(spawnTool.net, NetCoroutine()));
+        }
+    }
+
+    private IEnumerator NetCoroutine()
+    {
+        ThrowNet net = spawnTool.net.GetComponent<ThrowNet>();
+        net.Throw(currentTile);
+        yield return new WaitForSeconds(2f);
+
+        Color start = Color.black;
+        Color end = Color.black;
+        start.a = 0;
+
+        FadeManager.Instance.SetFade(start, end, 1f, () =>
+        {
+            net.ResetState();
+        });
+
+        yield return new WaitForSeconds(2f);
+        net.gameObject.SetActive(false);
+        FadeManager.Instance.SetFade(end, start, 1f);
+
+        player.isCantMove = false;
+
+        yield break;
     }
 
     private void Binil()
     {
-        print("ºñ´Ò");
+        player.isCantMove = true;
+
+        Color start = Color.black;
+        Color end = Color.black;
+        start.a = 0;
+
+        FadeManager.Instance.SetFade(start, end, 1f, () =>
+        {
+            currentTile.GetComponent<FarmTile>().SetBinil();
+            player.isCantMove = false;
+            FadeManager.Instance.SetFade(end, start, 1f);
+        });
     }
 
     private void GrowCrop()
     {
-
-
         StartCoroutine(SowingCoroutine());
     }
 

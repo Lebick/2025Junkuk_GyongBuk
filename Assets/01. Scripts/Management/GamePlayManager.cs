@@ -54,6 +54,8 @@ public class GamePlayManager : Singleton<GamePlayManager>
 
     public Inventory inventory;
 
+    public int money = 1000;
+
     protected override void Awake()
     {
         base.Awake();

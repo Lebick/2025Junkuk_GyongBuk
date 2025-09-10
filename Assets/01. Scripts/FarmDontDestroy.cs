@@ -15,4 +15,9 @@ public class FarmDontDestroy : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
     }
+
+    private void OnDisable()
+    {
+        farm = null;
+    }
 }
