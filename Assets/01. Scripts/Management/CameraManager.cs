@@ -6,9 +6,22 @@ public class CameraManager : Singleton<CameraManager>
 {
     public Transform targetTransform;
 
-    public void CameraAttach(Transform tr)
+    protected override void Awake()
+    {
+        base.Awake();
+
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public void CameraAttach(Transform tr, bool isSnap = false)
     {
         targetTransform = tr;
+
+        if (isSnap)
+        {
+            transform.position = tr.position;
+            transform.rotation = tr.rotation;
+        }
     }
 
     private void FixedUpdate()

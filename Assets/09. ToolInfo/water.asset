@@ -17,3 +17,5 @@ MonoBehaviour:
     \uC2B5\uB3C4\uB97C 50% \uC99D\uAC00\uC2DC\uD0B5\uB2C8\uB2E4.\n1\uD68C \uCDA9\uC804\uC73C\uB85C
     3\uD68C \uC0AC\uC6A9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
   functionName: Water
+  toolSprite: {fileID: 21300000, guid: 1a01de28f08cf5943a3c6f9fccc8c832, type: 3}
+  maxUseCount: 3

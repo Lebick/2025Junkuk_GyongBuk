@@ -33,4 +33,11 @@ public class CursorManager : Singleton<CursorManager>
             _cursorState = value;
         }
     }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        DontDestroyOnLoad(gameObject);
+    }
 }

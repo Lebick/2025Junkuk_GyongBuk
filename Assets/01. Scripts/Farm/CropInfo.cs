@@ -9,21 +9,9 @@ public class CropInfo : ScriptableObject
 
     [TextArea] public string myDescription;
 
-    public GameObject myPrefab;
-
-    public int buyPrice;
+    public Sprite cropSprite;
 
     public int minSellPrice;
     public int maxSellPrice;
     public int sellPrice;
-
-    public List<Weather> allowWeathers = new();
-
-    public int minHumidity;
-    public int maxHumidity;
-
-    public int minTime;
-    public int maxTime;
-
-    public int requireTime;
 }

@@ -14,12 +14,24 @@ public class PlayerController : MonoBehaviour
     public Material test;
 
     public ToolInfo currentTool;
-    public CropInfo currentSeed;
+    public SeedInfo currentSeed;
 
     public bool isCantMove;
 
     private void Awake()
     {
+        GamePlayManager gamePlayManager = GamePlayManager.Instance;
+
+        if (gamePlayManager.playerController != this)
+        {
+            Transform targetPos = GameObject.Find(gamePlayManager.teleportName).transform;
+
+            gamePlayManager.playerController.transform.position = targetPos.position;
+            gamePlayManager.playerController.transform.rotation = targetPos.rotation;
+
+            Destroy(gameObject);
+        }
+
         DontDestroyOnLoad(gameObject);
         rigidBody = GetComponent<Rigidbody>();
     }

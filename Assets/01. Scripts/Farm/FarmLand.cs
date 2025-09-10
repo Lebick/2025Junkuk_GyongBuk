@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class FarmLand : MonoBehaviour
 {
-    public CropInfo currentCrop;
+    public SeedInfo currentCrop;
     public FarmTile parentTile;
 
     private Transform cropTransform;
@@ -19,7 +19,7 @@ public class FarmLand : MonoBehaviour
 
     public bool isPlowing;
 
-    public void PlantCrop(CropInfo crop)
+    public void PlantCrop(SeedInfo crop)
     {
         growTimer = 0;
         currentCrop = crop;
@@ -49,7 +49,17 @@ public class FarmLand : MonoBehaviour
 
     public bool IsCanHarvast()
     {
+        if (currentCrop == null)
+            return false;
+
         return growTimer >= currentCrop.requireTime;
+    }
+
+    public void Harvast()
+    {
+        currentCrop = null;
+        Destroy(cropTransform.gameObject);
+        isPlowing = false;
     }
 
     private bool IsGrowAble()

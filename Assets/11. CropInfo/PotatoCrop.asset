@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab44075e792ad3448eb112ad47ac3e2, type: 3}
+  m_Name: PotatoCrop
+  m_EditorClassIdentifier: 
+  myName: "\uAC10\uC790"
+  myDescription: "\uC798 \uC790\uB780 \uAC10\uC790\uC785\uB2C8\uB2E4."
+  cropSprite: {fileID: 21300000, guid: 35853b5068f9079458811e9c4cfd971d, type: 3}
+  minSellPrice: 6000
+  maxSellPrice: 12000
+  sellPrice: 9000

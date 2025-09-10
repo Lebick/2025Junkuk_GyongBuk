@@ -11,4 +11,8 @@ public class ToolInfo : ScriptableObject
     public string myDescription;
 
     public string functionName;
+
+    public Sprite toolSprite;
+
+    public int maxUseCount;
 }

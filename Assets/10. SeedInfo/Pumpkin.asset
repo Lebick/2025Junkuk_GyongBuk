@@ -12,15 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2486e3a528c6e4599b57a20a815a06, type: 3}
   m_Name: Pumpkin
   m_EditorClassIdentifier: 
-  myName: "\uD638\uBC15"
+  myName: "\uD638\uBC15 \uC528"
   myDescription: "\uB9E4\uC6B0 \uAC70\uB300\uD55C \uC791\uBB3C\uC785\uB2C8\uB2E4.\n\uAC00\uC7A5
     \uBE44\uC2F8\uACE0 \uAC00\uC7A5 \uBE68\uB9AC \uC790\uB77C\uC9C0\uB9CC, \uB0A0\uC528\uC640
     \uC2B5\uB3C4\uC5D0 \uB9E4\uC6B0 \uCDE8\uC57D\uD569\uB2C8\uB2E4."
+  cropInfo: {fileID: 11400000, guid: 084fb0058fff58046bc0853102b4e982, type: 2}
   myPrefab: {fileID: 5911872741654223270, guid: 583c5b5778c3bbb40974fc3b4dde79b5, type: 3}
+  seedSprite: {fileID: 21300000, guid: 1e0f26df283b11649bfd755d2dc41c7d, type: 3}
   buyPrice: 10000
-  minSellPrice: 20000
-  maxSellPrice: 40000
-  sellPrice: 30000
   allowWeathers: 000000000100000002000000
   minHumidity: 30
   maxHumidity: 60

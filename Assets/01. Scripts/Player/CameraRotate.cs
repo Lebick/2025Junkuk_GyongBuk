@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class CameraRotate : MonoBehaviour
 {
+    private GamePlayManager gamePlayManager;
+    private CameraManager cameraManager;
+    private CursorManager cursorManager;
+
     private Transform targetPos;
 
     public Transform normalTargetPos;
+    public Transform houseTargetPos;
     public Transform freeTargetPos;
 
     public Transform realPosition;
@@ -15,20 +20,27 @@ public class CameraRotate : MonoBehaviour
 
     private void Start()
     {
-        CursorManager.Instance.CursorState = CursorState.PlayerView;
-        CameraManager.Instance.CameraAttach(realPosition);
+        gamePlayManager = GamePlayManager.Instance;
+        cameraManager = CameraManager.Instance;
+        cursorManager = CursorManager.Instance;
+
+        cursorManager.CursorState = CursorState.PlayerView;
+        cameraManager.CameraAttach(realPosition);
     }
 
     private void FixedUpdate()
     {
-        if (CursorManager.Instance.CursorState == CursorState.PlayerView && GamePlayManager.Instance.isFarm)
+        if (cursorManager.CursorState == CursorState.PlayerView && gamePlayManager.isFarm)
         {
             targetPos = freeTargetPos;
             Rotate();
         }
         else
         {
-            targetPos = normalTargetPos;
+            if (gamePlayManager.isHouse)
+                targetPos = houseTargetPos;
+            else
+                targetPos = normalTargetPos;
             rotationX = 0;
             rotationY = 0;
             transform.localEulerAngles = new Vector3(30f, 0, 0f);

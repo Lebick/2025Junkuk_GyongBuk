@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2486e3a528c6e4599b57a20a815a06, type: 3}
   m_Name: Carrot
   m_EditorClassIdentifier: 
-  myName: "\uB2F9\uADFC"
+  myName: "\uB2F9\uADFC \uC528"
   myDescription: "\uB0A0\uC528\uC5D0 \uCDE8\uC57D\uD569\uB2C8\uB2E4. \uAC00\uC7A5
     \uBE68\uB9AC \uC790\uB78D\uB2C8\uB2E4."
+  cropInfo: {fileID: 11400000, guid: 7bacb8d7369cb38429eb189668537956, type: 2}
   myPrefab: {fileID: 5656876864541828318, guid: 18a30cb1dedfdec4db5d560024be2d52, type: 3}
+  seedSprite: {fileID: 21300000, guid: 1263c8564986c7b45beda44262d3f170, type: 3}
   buyPrice: 1000
-  minSellPrice: 2000
-  maxSellPrice: 4000
-  sellPrice: 3000
   allowWeathers: 000000000100000002000000
   minHumidity: 40
   maxHumidity: 80

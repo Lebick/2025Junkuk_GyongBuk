@@ -24,6 +24,7 @@ public class GamePlayManager : Singleton<GamePlayManager>
     public float inGameTime = 0;
 
     public bool isFarm;
+    public bool isHouse;
 
     public int growthGauge = 1;
     public int humidity = -1;
@@ -35,6 +36,30 @@ public class GamePlayManager : Singleton<GamePlayManager>
     public Gradient skyBoxGradient;
 
     public bool isClearBuff;
+
+    public string teleportName = string.Empty;
+
+    private PlayerController _playerController;
+    public PlayerController playerController
+    {
+        get
+        {
+            if(_playerController == null)
+                _playerController = FindAnyObjectByType<PlayerController>();
+
+            return _playerController;
+        }
+        private set { }
+    }
+
+    public Inventory inventory;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void Update()
     {

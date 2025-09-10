@@ -5,8 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class HouseJoin : MonoBehaviour, IInteractable, IMouseOver
 {
+    private GamePlayManager gamePlayManager;
+    private FadeManager fadeManager;
+    private UIManager uiManager;
+    private CameraManager cameraManager;
+
     public Animator enterAnim;
     public Transform enterTransform;
+
+   private void Start()
+    {
+        gamePlayManager = GamePlayManager.Instance;
+        fadeManager = FadeManager.Instance;
+        uiManager = UIManager.Instance;
+        cameraManager = CameraManager.Instance;
+    }
 
     public bool Interaction()
     {
@@ -18,7 +31,10 @@ public class HouseJoin : MonoBehaviour, IInteractable, IMouseOver
     private IEnumerator HouseEnter()
     {
         enterAnim.SetTrigger("Show");
-        CameraManager.Instance.CameraAttach(enterTransform);
+
+        Transform lastTr = cameraManager.targetTransform;
+
+        cameraManager.CameraAttach(enterTransform);
 
         yield return new WaitForSeconds(0.5f);
 
@@ -26,19 +42,23 @@ public class HouseJoin : MonoBehaviour, IInteractable, IMouseOver
         Color end = Color.black;
         start.a = 0f;
 
-        FadeManager.Instance.SetFade(start, end, 0.5f, () =>
+        fadeManager.SetFade(start, end, 0.5f, () =>
         {
+            cameraManager.CameraAttach(lastTr);
+            gamePlayManager.isHouse = true;
+            gamePlayManager.teleportName = "HouseTeleport";
             SceneManager.LoadScene("House");
-            FadeManager.Instance.SetFade(end, start, 1f);
+            fadeManager.SetFade(end, start, 1f);
         });
+
     }
 
     public void MouseOverEvent()
     {
-        UIManager.Instance.SetAlert("집에 들어가기");
+        uiManager.SetAlert("집에 들어가기");
     }
     public void MouseOutEvent()
     {
-        UIManager.Instance.SetAlert(string.Empty);
+        uiManager.SetAlert(string.Empty);
     }
 }

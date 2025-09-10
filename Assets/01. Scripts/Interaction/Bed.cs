@@ -73,6 +73,21 @@ public class Bed : MonoBehaviour, IInteractable, IMouseOver
 
         gameManager.fatigue -= gameManager.isClearBuff ? 30 : 0;
 
+        Cancel();
+
+        float p = 0f;
+        float startTime = gameManager.inGameTime;
+
+        while (p < 1f)
+        {
+            p += Time.deltaTime / 2f;
+            float value = 1 - Mathf.Pow(1 - p, 3f);
+            float addTime = sleepTime * 5 * Mathf.Clamp01(value);
+            gameManager.inGameTime = startTime + addTime;
+
+            yield return null;
+        }
+
         yield return new WaitForSeconds(1.5f);
         FadeManager.Instance.SetFade(end, start, 1f);
     }

@@ -14,7 +14,7 @@ public class ToolSelector : MonoBehaviour
         public ToolInfo toolInfo;
     }
 
-    public PlayerController playerController;
+    private GamePlayManager gamePlayManager;
 
     private bool isOpen = false;
 
@@ -28,6 +28,7 @@ public class ToolSelector : MonoBehaviour
     private void Start()
     {
         rect = GetComponent<RectTransform>();
+        gamePlayManager = GamePlayManager.Instance;
     }
 
     private void Update()
@@ -43,7 +44,8 @@ public class ToolSelector : MonoBehaviour
             isOpen = false;
             CursorManager.Instance.CursorState = CursorState.PlayerView;
 
-            Select();
+            if(currentSelectTool != null)
+                Select();
         }
 
         toolSelectorAnim.SetBool("isOpen", isOpen);
@@ -61,6 +63,14 @@ public class ToolSelector : MonoBehaviour
 
         foreach (AngleData angleData in angleDatas)
         {
+            if (gamePlayManager.inventory.IsExistItem(angleData.toolInfo))
+                angleData.image.transform.GetChild(0).GetComponent<Image>().color = Color.white;
+            else
+            {
+                angleData.image.transform.GetChild(0).GetComponent<Image>().color = Color.black;
+                continue;
+            }
+
             if (Mathf.Clamp(currentAngle, angleData.minAngle, angleData.maxAngle) == currentAngle)
             {
                 currentSelectTool = angleData.toolInfo;
@@ -75,7 +85,7 @@ public class ToolSelector : MonoBehaviour
 
     private void Select()
     {
-        playerController.currentSeed = null;
-        playerController.currentTool = currentSelectTool;
+        gamePlayManager.playerController.currentSeed = null;
+        gamePlayManager.playerController.currentTool = currentSelectTool;
     }
 }

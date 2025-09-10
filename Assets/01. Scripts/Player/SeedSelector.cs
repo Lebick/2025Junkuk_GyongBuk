@@ -11,15 +11,15 @@ public class SeedSelector : MonoBehaviour
         public float minAngle;
         public float maxAngle;
         public GameObject image;
-        public CropInfo cropInfo;
+        public SeedInfo cropInfo;
     }
 
-    public PlayerController playerController;
+    private GamePlayManager gamePlayManager;
 
     private bool isOpen = false;
     public List<AngleData> angleDatas = new();
 
-    public CropInfo currentSelectCrop;
+    public SeedInfo currentSelectCrop;
 
     public Animator cropSelectorAnim;
     private RectTransform rect;
@@ -27,6 +27,7 @@ public class SeedSelector : MonoBehaviour
     private void Start()
     {
         rect = GetComponent<RectTransform>();
+        gamePlayManager = GamePlayManager.Instance;
     }
 
     private void Update()
@@ -42,7 +43,8 @@ public class SeedSelector : MonoBehaviour
             isOpen = false;
             CursorManager.Instance.CursorState = CursorState.PlayerView;
 
-            Select();
+            if(currentSelectCrop != null)
+                Select();
         }
 
         cropSelectorAnim.SetBool("isOpen", isOpen);
@@ -60,6 +62,14 @@ public class SeedSelector : MonoBehaviour
 
         foreach (AngleData angleData in angleDatas)
         {
+            if (gamePlayManager.inventory.IsExistItem(angleData.cropInfo))
+                angleData.image.transform.GetChild(0).GetComponent<Image>().color = Color.white;
+            else
+            {
+                angleData.image.transform.GetChild(0).GetComponent<Image>().color = Color.black;
+                continue;
+            }
+
             if (Mathf.Clamp(currentAngle, angleData.minAngle, angleData.maxAngle) == currentAngle)
             {
                 currentSelectCrop = angleData.cropInfo;
@@ -74,7 +84,7 @@ public class SeedSelector : MonoBehaviour
 
     private void Select()
     {
-        playerController.currentTool = null;
-        playerController.currentSeed = currentSelectCrop;
+        gamePlayManager.playerController.currentTool = null;
+        gamePlayManager.playerController.currentSeed = currentSelectCrop;
     }
 }

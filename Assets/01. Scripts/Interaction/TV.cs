@@ -8,6 +8,8 @@ public class TV : MonoBehaviour, IInteractable, IMouseOver
     public CanvasGroupSetting canvasGroupSetting;
     public Text newsText;
 
+    private bool isPrinting;
+
     private readonly Dictionary<Weather, string> weatherText = new()
         {
             {Weather.Clear, "¸¼À»"},
@@ -19,6 +21,9 @@ public class TV : MonoBehaviour, IInteractable, IMouseOver
 
     public bool Interaction()
     {
+        if (isPrinting) return false;
+        isPrinting = true;
+
         StartCoroutine(ShowTVText());
         return false;
     }
@@ -50,6 +55,8 @@ public class TV : MonoBehaviour, IInteractable, IMouseOver
         yield return new WaitForSeconds(3f);
 
         canvasGroupSetting.SetAlpha(0f, 5f);
+
+        isPrinting = false;
     }
 
     public void MouseOverEvent()

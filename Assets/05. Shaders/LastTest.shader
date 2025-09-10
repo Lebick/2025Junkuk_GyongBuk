@@ -38,6 +38,7 @@ Shader "Unlit/LastTest"
             {
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
+                // UNITY_FOG_COORDS(2)
                 float4 vertex : SV_POSITION;
             };
 
@@ -46,7 +47,7 @@ Shader "Unlit/LastTest"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
+                // UNITY_TRANSFER_FOG(o,o.vertex);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 return o;
             }

@@ -11,6 +11,9 @@ public class PlayerTool : MonoBehaviour
 
     public SpawnTool spawnTool;
 
+    public int waterUseCount;
+    public int maxWaterCount;
+
     private void Awake()
     {
         player = GetComponent<PlayerController>();
@@ -20,12 +23,22 @@ public class PlayerTool : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            if((player.currentTool != null || player.currentSeed != null) && GamePlayManager.Instance.fatigue >= 100)
+            {
+                UIManager.Instance.SetAlert("³ª ³Ê¹« Èûµå·· ¤Ð¤Ð");
+                return;
+            }
+
             if (player.currentTool != null)
                 Invoke(player.currentTool.functionName, 0f);
 
-            if (player.currentSeed != null && currentLand != null && currentLand.GetComponent<FarmLand>().currentCrop == null)
+            if (player.currentSeed != null && currentLand != null &&
+                currentLand.GetComponent<FarmLand>().currentCrop == null && currentLand.GetComponent<FarmLand>().isPlowing)
             {
-                GrowCrop();
+                if (GamePlayManager.Instance.inventory.UseSeed(player.currentSeed))
+                    GrowCrop();
+                else
+                    UIManager.Instance.SetAlert("¾¾¾ÑÀÌ ºÎÁ·ÇÔ ¤µ¤¡");
             }
         }
     }
@@ -42,13 +55,22 @@ public class PlayerTool : MonoBehaviour
 
     private void Water()
     {
+        if(waterUseCount >= maxWaterCount)
+        {
+            print("¹°ÀÌ¾øÀÝ¾Æ");
+            return;
+        }
+
         if (currentTile == null)
         {
-            print("Å¸ÀÏÀÌ¾øÀÝ¾Æ!!!!!!!!!!!!");
+            print("Å¸ÀÏÀÌ¾øÀÝ¾Æ");
         }
         else
         {
             GamePlayManager.Instance.fatigue += 2;
+
+            waterUseCount++;
+
             StartCoroutine(SpawningToolMesh(spawnTool.water, WaterCoroutine()));
         }
     }
@@ -66,10 +88,9 @@ public class PlayerTool : MonoBehaviour
 
     private void Not()
     {
-
         if (currentLand == null)
         {
-            print("¶¥ÀÌ¾øÀÝ¾Æ!!!!!!!!!!!!");
+            print("¶¥ÀÌ¾øÀÝ¾Æ");
         }
         else
         {
@@ -87,6 +108,7 @@ public class PlayerTool : MonoBehaviour
         }
     }
 
+    //¹ç°¥±â
     private IEnumerator PlowingCoroutine()
     {
         player.anim.SetTrigger("Plowing");
@@ -98,22 +120,28 @@ public class PlayerTool : MonoBehaviour
         spawnTool.RemoveTool(spawnTool.rake);
     }
 
+
+    //¼öÈ®
     private IEnumerator HarvastCoroutine()
     {
         player.isCantMove = true;
         player.anim.SetTrigger("Harvast");
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(1f);
 
         Color start = Color.black;
         Color end = Color.black;
         start.a = 0;
 
-        FadeManager.Instance.SetFade(start, end, 0.5f, () =>
+        FadeManager.Instance.SetFade(start, end, 1f, () =>
         {
-            FadeManager.Instance.SetFade(end, start, 0.5f);
+            GamePlayManager.Instance.inventory.AddList(currentLand.GetComponent<FarmLand>().currentCrop.cropInfo);
+            currentLand.GetComponent<FarmLand>().Harvast();
+            FadeManager.Instance.SetFade(end, start, 1f);
         });
 
         yield return new WaitForSeconds(1f);
+
+        
 
         player.isCantMove = false;
     }
@@ -135,6 +163,8 @@ public class PlayerTool : MonoBehaviour
 
     private void GrowCrop()
     {
+
+
         StartCoroutine(SowingCoroutine());
     }
 

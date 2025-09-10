@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2486e3a528c6e4599b57a20a815a06, type: 3}
   m_Name: Garlic
   m_EditorClassIdentifier: 
-  myName: "\uB9C8\uB298"
+  myName: "\uB9C8\uB298 \uC528"
   myDescription: "\uBC24\uC5D0\uB9CC \uC790\uB77C\uB294 \uC791\uBB3C\uC785\uB2C8\uB2E4.\n\uC790\uB77C\uB294\uB370
     \uC2DC\uAC04\uC774 \uAC78\uB9AC\uC9C0\uB9CC, \uD310\uB9E4\uAC00\uAC00 \uB192\uC2B5\uB2C8\uB2E4."
+  cropInfo: {fileID: 11400000, guid: b676f7ed1d1637f47b106b84f9accc7a, type: 2}
   myPrefab: {fileID: 2664392869145047293, guid: e11ed0e06b0fa294e8e25e077d2de73b, type: 3}
+  seedSprite: {fileID: 21300000, guid: 9caef4e3846f461428cd8f9068036033, type: 3}
   buyPrice: 8000
-  minSellPrice: 16000
-  maxSellPrice: 32000
-  sellPrice: 24000
   allowWeathers: 00000000010000000200000003000000
   minHumidity: 40
   maxHumidity: 70

@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b85fc7c6b9b6b384b85cb59198d7bb6e, type: 3}
   m_Name: not
   m_EditorClassIdentifier: 
-  myName: "\uC77C\uBC18 \uB0AB"
-  myDescription: "\uC791\uBB3C\uC744 \uC218\uD655\uD560 \uC218 \uC788\uB294 \uB0AB\uC785\uB2C8\uB2E4.\n\uC218\uD655
+  myName: "\uC77C\uBC18 \uB3C4\uAD6C"
+  myDescription: "\uC791\uBB3C\uC744 \uC218\uD655\uD560 \uC218 \uC788\uB294 \uB3C4\uAD6C\uC785\uB2C8\uB2E4.\n\uC218\uD655
     \uC2DC \uC791\uBB3C\uC744 1\uAC1C \uD68D\uB4DD\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.\n10%\uD655\uB960\uB85C
     \uD574\uB2F9 \uC791\uBB3C\uC758 \uC528\uC557\uC744 1\uAC1C \uD68D\uB4DD\uD560
     \uC218 \uC788\uC2B5\uB2C8\uB2E4."
   functionName: Not
+  toolSprite: {fileID: 21300000, guid: c71fddf39a338334dbdc9678e22f2222, type: 3}
