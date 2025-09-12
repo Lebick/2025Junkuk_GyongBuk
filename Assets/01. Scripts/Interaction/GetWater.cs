@@ -41,7 +41,7 @@ public class GetWater : MonoBehaviour, IInteractable, IMouseOver
 
     public void MouseOverEvent()
     {
-        UIManager.Instance.SetAlert("물 기르기");
+        UIManager.Instance.SetAlert("물 긷기");
     }
     public void MouseOutEvent()
     {

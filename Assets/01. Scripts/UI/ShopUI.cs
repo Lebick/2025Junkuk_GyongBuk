@@ -8,8 +8,6 @@ public class ShopUI : MonoBehaviour
     private GamePlayManager gamePlayManager;
     private FadeManager fadeManager;
 
-    private bool isInteraction;
-
     public Animator shopAnim;
 
     public Animator itemListAnim;
@@ -28,7 +26,8 @@ public class ShopUI : MonoBehaviour
     public Animator buyTabAnim;
     public Animator sellTabAnim;
 
-    public int maxInventoryCount;
+    public Text storageUpgradeText;
+    private int storageUpgradePrice;
 
     private bool isFocus;
 
@@ -42,7 +41,14 @@ public class ShopUI : MonoBehaviour
 
     private void Update()
     {
-        CursorManager.Instance.CursorState = CursorState.Free;
+        storageUpgradePrice = gamePlayManager.inventory.maxItemCount * 250;
+
+        if(gamePlayManager.inventory.maxItemCount >= 160)
+            storageUpgradeText.text = "(isMax)";
+        else
+            storageUpgradeText.text = $"{storageUpgradePrice:N0} $";
+
+        inventoryCount.text = $"창고 용량  {gamePlayManager.inventory.GetItemsCount():D2} / {gamePlayManager.inventory.maxItemCount}";
     }
 
     private void OnEnable()
@@ -68,7 +74,23 @@ public class ShopUI : MonoBehaviour
 
     public void OnClickUpgradeButton()
     {
-        print("업글");
+        if (gamePlayManager.inventory.maxItemCount >= 160) return;
+
+        if(gamePlayManager.money >= storageUpgradePrice)
+        {
+            Color start = Color.white;
+            Color end = Color.white;
+            start.a = 0.5f;
+            end.a = 0;
+            fadeManager.SetFade(start, end, 0.5f, isUnscaledDeltaTime:true);
+
+            gamePlayManager.money -= storageUpgradePrice;
+            gamePlayManager.inventory.maxItemCount += gamePlayManager.inventory.maxItemCount;
+        }
+        else
+        {
+            Debug.Log("뭐 이런 그지가다잇어");
+        }
     }
 
     public void OnClickBuyButton()
@@ -108,7 +130,8 @@ public class ShopUI : MonoBehaviour
         SetFocus();
         Time.timeScale = 1;
         shopAnim.SetTrigger("Close");
-        isInteraction = false;
+        if (currentTabAnim != null)
+            currentTabAnim.SetTrigger("Close");
 
         ResetMainButtonEnable();
     }
@@ -129,6 +152,8 @@ public class ShopUI : MonoBehaviour
         sellAnim.SetBool("isFocus", isFocus);
     }
 
+    #region 인벤토리
+
     private void InventoryUpdate()
     {
         int toolUICount = toolInventoryTr.childCount;
@@ -145,8 +170,6 @@ public class ShopUI : MonoBehaviour
         int seedCount = gamePlayManager.inventory.seeds.Count;
 
         UpdateSeedInventory(seedUICount, seedCount);
-
-        inventoryCount.text = $"창고 용량  {gamePlayManager.inventory.GetItemsCount():D2} / {maxInventoryCount}";
     }
 
     private void UpdateToolInventory(int uiCount, int toolCount)
@@ -226,4 +249,6 @@ public class ShopUI : MonoBehaviour
             ui.count.text = $"{gamePlayManager.inventory.seeds[i].count}";
         }
     }
+
+    #endregion
 }

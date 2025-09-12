@@ -12,7 +12,7 @@ public class FarmLand : MonoBehaviour
 
     private Transform cropTransform;
 
-    private float growTimer = 0;
+    public float growTimer = 0;
 
     public GameObject alertGameObject;
     public Text alertTitle;
@@ -81,6 +81,7 @@ public class FarmLand : MonoBehaviour
         if (!currentCrop.allowWeathers.Contains(GamePlayManager.Instance.currentWeather))
         {
             causeText += "³¯¾¾  ";
+            isGrowAble = false;
         }
 
         if (parentTile.humidity < 30 || parentTile.humidity > 80)

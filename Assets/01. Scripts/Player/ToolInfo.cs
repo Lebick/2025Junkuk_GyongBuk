@@ -15,4 +15,6 @@ public class ToolInfo : ScriptableObject
     public Sprite toolSprite;
 
     public int maxUseCount;
+
+    public int buyPrice;
 }

@@ -65,7 +65,7 @@ public class ToolSelector : MonoBehaviour
         {
             if (gamePlayManager.inventory.IsExistItem(angleData.toolInfo))
                 angleData.image.transform.GetChild(0).GetComponent<Image>().color = Color.white;
-            else
+            else if(angleData.toolInfo != null)
             {
                 angleData.image.transform.GetChild(0).GetComponent<Image>().color = Color.black;
                 continue;

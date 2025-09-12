@@ -52,9 +52,28 @@ public class TV : MonoBehaviour, IInteractable, IMouseOver
         GamePlayManager.Instance.isKnowCurrentWeather = true;
         GamePlayManager.Instance.isKnowNextWeather = true;
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(0.5f);
 
-        canvasGroupSetting.SetAlpha(0f, 5f);
+        canvasGroupSetting.SetAlpha(0f, 1f);
+        yield return new WaitForSeconds(1f);
+        newsText.text = string.Empty;
+        canvasGroupSetting.SetAlpha(1f, 1f);
+
+        yield return new WaitForSeconds(0.5f);
+
+        content = $"또한 오늘 여러 작물들의 시세가 변동하였다는 소식이 있습니다. 상세한 내용은 ...";
+
+        for (int i = 1; i <= content.Length; i++)
+        {
+            newsText.text = content[..i];
+            yield return textWait;
+        }
+
+        GamePlayManager.Instance.isCheckSellPrice = true;
+
+        yield return new WaitForSeconds(0.5f);
+
+        canvasGroupSetting.SetAlpha(0f, 1f);
 
         isPrinting = false;
     }

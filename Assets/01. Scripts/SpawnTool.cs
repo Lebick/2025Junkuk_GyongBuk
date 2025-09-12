@@ -25,13 +25,6 @@ public class SpawnTool : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
-            SpawningTool(rake);
-
-        if (Input.GetKeyDown(KeyCode.J))
-            rake.gameObject.SetActive(false);
-
-
         if(currentTransform != null)
         {
             spawnParticle.transform.position = currentTransform.position;

@@ -90,6 +90,16 @@ MonoBehaviour:
   teleportName: 
   inventory: {fileID: 1538416596654216128}
   money: 1000
+  isCheckSellPrice: 0
+  cropInfos:
+  - {fileID: 11400000, guid: 7bacb8d7369cb38429eb189668537956, type: 2}
+  - {fileID: 11400000, guid: b676f7ed1d1637f47b106b84f9accc7a, type: 2}
+  - {fileID: 11400000, guid: 21d34e11ee973b641a6f45a5ac59456b, type: 2}
+  - {fileID: 11400000, guid: 1afee610699fcd64db1e7ab014ea1725, type: 2}
+  - {fileID: 11400000, guid: 084fb0058fff58046bc0853102b4e982, type: 2}
+  activeFarmTiles:
+  - {fileID: 0}
+  hailDestroyParticle: {fileID: 8406705728437770559, guid: d8f24f60f3cc1c140b73e67d42ca0e5a, type: 3}
 --- !u!114 &1538416596654216128
 MonoBehaviour:
   m_ObjectHideFlags: 0

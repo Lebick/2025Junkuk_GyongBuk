@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/00. Scenes/House.unity
     guid: 352a54bbd10c1344aa8e87cdb57c0bcf
+  - enabled: 1
+    path: Assets/00. Scenes/Ranking.unity
+    guid: dcfd641b071149741ad5df5b3e81fc84
   m_configObjects: {}

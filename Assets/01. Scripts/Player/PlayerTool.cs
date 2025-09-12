@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerTool : MonoBehaviour
@@ -102,6 +103,9 @@ public class PlayerTool : MonoBehaviour
 
             else if (currentLand.GetComponent<FarmLand>().IsCanHarvast())
             {
+                if (GamePlayManager.Instance.inventory.IsMaxItem())
+                    return;
+
                 GamePlayManager.Instance.fatigue += 5;
                 StartCoroutine(SpawningToolMesh(spawnTool.rake, HarvastCoroutine()));
             }
@@ -119,7 +123,6 @@ public class PlayerTool : MonoBehaviour
 
         spawnTool.RemoveTool(spawnTool.rake);
     }
-
 
     //수확
     private IEnumerator HarvastCoroutine()
@@ -148,7 +151,49 @@ public class PlayerTool : MonoBehaviour
 
     private void Auto()
     {
-        print("자동");
+        if (currentTile.GetComponent<FarmTile>().IsCanCreateAutoHarvast())
+        {
+            player.isCantMove = true;
+            StartCoroutine(AutoHarvastCoroutine());
+        }
+        // 해머질을 하는데??
+        // 중앙타일쪽을 보고?????
+        // 중앙 타일에 뭐가 안심어져있어야함
+    }
+
+    private IEnumerator AutoHarvastCoroutine()
+    {
+        currentTile.GetComponent<FarmTile>().CreateAutoHarvast();
+
+        yield return new WaitForSeconds(0.5f);
+        float p = 0f;
+
+        Vector3 dir = (currentTile.transform.position - transform.position).normalized;
+        float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+
+        Quaternion startRot = player.model.rotation;
+
+        Vector3 startPos = player.transform.position;
+        Vector3 endPos = currentTile.transform.position - dir;
+        endPos.y = player.transform.position.y;
+
+        while (p < 1f)
+        {
+            player.anim.SetBool("isMove", true);
+            p += Time.deltaTime;
+            player.model.rotation = Quaternion.Lerp(startRot, Quaternion.Euler(0, angle, 0), p);
+            player.transform.position = Vector3.Lerp(startPos, endPos, p);
+            yield return null;
+        }
+
+        player.anim.SetBool("isMove", false);
+
+        yield return new WaitForSeconds(0.5f);
+
+        player.anim.SetTrigger("Hammer");
+
+        yield return new WaitForSeconds(5f);
+        player.isCantMove = false;
     }
 
     private void Animal()
@@ -166,6 +211,8 @@ public class PlayerTool : MonoBehaviour
 
     private IEnumerator NetCoroutine()
     {
+        player.anim.SetTrigger("Net");
+        yield return new WaitForSeconds(0.8f);
         ThrowNet net = spawnTool.net.GetComponent<ThrowNet>();
         net.Throw(currentTile);
         yield return new WaitForSeconds(2f);
@@ -180,6 +227,7 @@ public class PlayerTool : MonoBehaviour
         });
 
         yield return new WaitForSeconds(2f);
+        currentTile.GetComponent<FarmTile>().RemoveAnimals();
         net.gameObject.SetActive(false);
         FadeManager.Instance.SetFade(end, start, 1f);
 
@@ -223,7 +271,7 @@ public class PlayerTool : MonoBehaviour
         if (collision.gameObject.CompareTag("Tile"))
         {
             currentLand = collision.transform;
-            currentTile = collision.transform.parent;
+            currentTile = collision.transform.GetComponentInParent<FarmTile>().transform;
         }
     }
 
@@ -232,7 +280,7 @@ public class PlayerTool : MonoBehaviour
         if (collision.gameObject.CompareTag("Tile"))
         {
             currentLand = collision.transform;
-            currentTile = collision.transform.parent;
+            currentTile = collision.transform.GetComponentInParent<FarmTile>().transform;
         }
     }
 

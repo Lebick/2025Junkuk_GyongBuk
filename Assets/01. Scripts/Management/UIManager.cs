@@ -7,13 +7,14 @@ public class UIManager : Singleton<UIManager>
 {
     private GamePlayManager gamePlayManager;
 
-    public ShopUI shopUI;
+    public Animator shopAnim;
 
     public Text moneyText;
 
     public Text alertMessage;
 
     public Text timeText;
+    public Text dayText;
 
     public Image fatigueFill;
 
@@ -76,11 +77,14 @@ public class UIManager : Singleton<UIManager>
 
     private void LateUpdate()
     {
+
         moneyText.text = $"{gamePlayManager.money:N0} $";
 
         int[] times = gamePlayManager.GetTime();
 
         timeText.text = $"{times[0]}d {times[1]}h {times[2]}m {times[3]}s";
+
+        dayText.text = $"Day {times[0]}";
 
         timeCircle.transform.localEulerAngles = new Vector3(0, 0, (times[1] + (times[2] / 60f)) / 24f * 360 - 180);
 

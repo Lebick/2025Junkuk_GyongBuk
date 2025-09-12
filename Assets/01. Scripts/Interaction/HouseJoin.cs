@@ -44,11 +44,14 @@ public class HouseJoin : MonoBehaviour, IInteractable, IMouseOver
 
         fadeManager.SetFade(start, end, 0.5f, () =>
         {
-            cameraManager.CameraAttach(lastTr);
             gamePlayManager.isHouse = true;
             gamePlayManager.teleportName = "HouseTeleport";
             SceneManager.LoadScene("House");
-            fadeManager.SetFade(end, start, 1f);
+            cameraManager.CameraAttach(lastTr);
+            fadeManager.SetFade(end, end, 0.5f, () =>
+            {
+                fadeManager.SetFade(end, start, 1f);
+            });
         });
 
     }

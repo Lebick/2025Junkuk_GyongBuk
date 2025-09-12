@@ -17,6 +17,9 @@ public class WeatherEffect : MonoBehaviour
     private bool isCloudy;
     private IEnumerator cloudyCoroutine;
 
+    public AudioClip rainSound;
+    public AudioClip thunderSound;
+
     private void Start()
     {
         gamePlayManager = GamePlayManager.Instance;
@@ -41,27 +44,34 @@ public class WeatherEffect : MonoBehaviour
 
     private void SetWeatherState(Weather weather)
     {
+        if (IsInvoking(nameof(ThunderSound)))
+            CancelInvoke(nameof(ThunderSound));
+
         switch (weather)
         {
             case Weather.Clear:
                 rainParticle.Stop();
                 hailParticle.Stop();
+                SoundManager.Instance.SetWeatherBGM(null);
                 break;
 
             case Weather.Cloudy:
                 rainParticle.Stop();
                 hailParticle.Stop();
+                SoundManager.Instance.SetWeatherBGM(null);
                 break;
 
             case Weather.Rain:
                 rainParticle.Play();
                 hailParticle.Stop();
+                SoundManager.Instance.SetWeatherBGM(rainSound);
                 break;
 
             case Weather.Stormy:
-                print("²¦ ÆøÇ³ÀÌ¾ß!!!!!!!");
                 rainParticle.Play();
                 hailParticle.Stop();
+                SoundManager.Instance.SetWeatherBGM(rainSound);
+                InvokeRepeating(nameof(ThunderSound), 10, 10);
                 break;
 
             case Weather.Hail:
@@ -91,13 +101,30 @@ public class WeatherEffect : MonoBehaviour
         }
     }
 
+    private void ThunderSound()
+    {
+        int randomValue = Random.Range(0, 10);
+        print($"¹ø°³ °ª : {randomValue}");
+        if (randomValue != -1)
+        {
+            SoundManager.Instance.SetWeatherSFX(thunderSound);
+
+            Color start = Color.white;
+            Color end = Color.white;
+            start.a = 1f;
+            end.a = 0f;
+
+            FadeManager.Instance.SetFade(start, end, 2f);
+        }
+    }
+
     private IEnumerator SetCloudy(float targetValue)
     {
         float start = RenderSettings.fogStartDistance;
 
         float p = 0f;
 
-        while(p < 1f)
+        while (p < 1f)
         {
             p += Time.deltaTime / 3f;
             float value = 1 - Mathf.Pow(1 - p, 3f);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour
 {
@@ -42,9 +43,12 @@ public class PlayerController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
 
         Vector3 dir = new Vector3(h, 0, v).normalized;
-        
-        if(!isCantMove)
+
+        if (!isCantMove)
+        {
             Move(dir);
+            Rotation(dir);
+        }
         else
             anim.SetBool("isMove", false);
 
@@ -53,14 +57,6 @@ public class PlayerController : MonoBehaviour
 
     private void Move(Vector3 dir)
     {
-        Vector3 current = transform.eulerAngles;
-        float targetY = Camera.main.transform.eulerAngles.y;
-
-        float rotateAngle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
-
-        if (dir != Vector3.zero)
-            model.rotation = Quaternion.Lerp(model.rotation, Quaternion.Euler(current.x, targetY + rotateAngle, current.z), Time.deltaTime * 10f);
-
         bool isRun = Input.GetKey(KeyCode.LeftShift);
 
         Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, isRun ? 70f : 60f, Time.deltaTime * 10f);
@@ -73,5 +69,16 @@ public class PlayerController : MonoBehaviour
 
         anim.SetBool("isMove", dir.magnitude != 0);
         anim.SetBool("isRun", isRun);
+    }
+
+    private void Rotation(Vector3 dir)
+    {
+        Vector3 current = transform.eulerAngles;
+        float targetY = Camera.main.transform.eulerAngles.y;
+
+        float rotateAngle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+
+        if (dir != Vector3.zero)
+            model.rotation = Quaternion.Lerp(model.rotation, Quaternion.Euler(current.x, targetY + rotateAngle, current.z), Time.deltaTime * 10f);
     }
 }

@@ -36,7 +36,10 @@ public class HouseExit : MonoBehaviour, IInteractable, IMouseOver
             gamePlayManager.isHouse = false;
             gamePlayManager.teleportName = "HouseTeleport";
             SceneManager.LoadScene("GameScene");
-            fadeManager.SetFade(end, start, 1f);
+            fadeManager.SetFade(end, end, 0.5f, () =>
+            {
+                fadeManager.SetFade(end, start, 1f);
+            });
         });
 
         return true;

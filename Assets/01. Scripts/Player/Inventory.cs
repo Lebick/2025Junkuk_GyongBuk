@@ -14,6 +14,11 @@ public class Inventory : MonoBehaviour
 
     public UnityEvent onItemListChanged = new();
 
+    public bool IsMaxItem()
+    {
+        return GetItemsCount() >= maxItemCount;
+    }
+
     public bool AddList(CropInfo info)
     {
         if (GetItemsCount() >= maxItemCount)
@@ -79,6 +84,26 @@ public class Inventory : MonoBehaviour
         tools.Add(info);
     }
 
+    public CropItem GetCropItem(CropInfo info)
+    {
+        foreach(var crop in crops)
+        {
+            if (crop.cropInfo == info)
+                return crop;
+        }
+
+        return null;
+    }
+
+    public bool IsExistItem(CropInfo info)
+    {
+        foreach (var crop in crops)
+            if (crop.cropInfo == info)
+                return true;
+
+        return false;
+    }
+
     public bool IsExistItem(SeedInfo info)
     {
         foreach (var seed in seeds)
@@ -107,6 +132,26 @@ public class Inventory : MonoBehaviour
 
                 if (seed.count <= 0)
                     seeds.Remove(seed);
+
+                onItemListChanged?.Invoke();
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool UseCrop(CropInfo info)
+    {
+        foreach (var crop in crops)
+        {
+            if (crop.cropInfo == info)
+            {
+                crop.count--;
+
+                if (crop.count <= 0)
+                    crops.Remove(crop);
 
                 onItemListChanged?.Invoke();
 
